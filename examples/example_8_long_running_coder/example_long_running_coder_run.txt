@@ -1,0 +1,54 @@
+=========================================================
+🚀 Long-Running Coder Agent (Gemini 3.5 Autonomous Loop)
+=========================================================
+
+Enter a goal for the agent (or press Enter for default Mojo math library): Agent Goal: Create a folder 'math_lib', write a Mojo file inside containing a dynamic sum function, compile it, and print the output.
+Running Mode: AUTONOMOUS (Default)
+💡 (To enable interactive confirmation, run with: --interactive or -i)
+
+Starting cloud agent loop using Gemini 3.5 Flash...
+
+--- [Iteration 1/5] ---
+Sending prompt history to model...
+Model Decided Command: mkdir -p math_lib
+Executing command natively...
+System Exec Output:
+
+
+--- [Iteration 2/5] ---
+Sending prompt history to model...
+Model Decided Command: cat << 'EOF' > math_lib/sum.mojo
+def sum_dynamic(numbers: List[Int]) -> Int:
+    var total = 0
+    for i in range(len(numbers)):
+        total += numbers[i]
+    return total
+
+def main():
+    var numbers = List[Int]()
+    numbers.append(1)
+    numbers.append(2)
+    numbers.append(3)
+    numbers.append(4)
+    numbers.append(5)
+    print(sum_dynamic(numbers))
+EOF
+Executing command natively...
+System Exec Output:
+
+
+--- [Iteration 3/5] ---
+Sending prompt history to model...
+Model Decided Command: mojo build math_lib/sum.mojo -o math_lib/sum_bin && ./math_lib/sum_bin
+Executing command natively...
+System Exec Output:
+15
+
+--- [Iteration 4/5] ---
+Sending prompt history to model...
+Model Decided Command: COMPLETED
+
+🎉 Goal Accomplished: Long-running agent has completed all tasks successfully.
+
+Cleaning up math_lib directories...
+=========================================================

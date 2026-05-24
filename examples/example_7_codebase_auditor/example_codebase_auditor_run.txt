@@ -1,0 +1,57 @@
+=========================================================
+🚀 Codebase Semantic Auditor & Refactoring Agent (Gemini 3.5)
+=========================================================
+
+Target Crawl Directory: src/t2m_runtime
+Auditing Objective: Identify raw pointer FFI bindings and suggest safety wrappers
+
+Crawling directory structures using readdirSync FFI...
+Found 11 Mojo source files to audit:
+  - Crawled file: src/t2m_runtime/llm.mojo
+  - Crawled file: src/t2m_runtime/fs_pure.mojo
+  - Crawled file: src/t2m_runtime/timer.mojo
+  - Crawled file: src/t2m_runtime/http.mojo
+  - Crawled file: src/t2m_runtime/date.mojo
+  - Crawled file: src/t2m_runtime/path.mojo
+  - Crawled file: src/t2m_runtime/__init__.mojo
+  - Crawled file: src/t2m_runtime/utils.mojo
+  - Crawled file: src/t2m_runtime/gpu_classifier.mojo
+  - Crawled file: src/t2m_runtime/child_process.mojo
+  - Crawled file: src/t2m_runtime/fs.mojo
+
+Extracting zero-copy StringView slices of unsafe FFI areas...
+  [Slice Match in src/t2m_runtime/gpu_classifier.mojo]:
+    "over 3.4 GB/s. """  from std.ffi import OwnedDLHandle  # Classification codes comptime CHAR_WHITESPA"
+  [Slice Match in src/t2m_runtime/child_process.mojo]:
+    ")          var fp = popen(Int(cmd_bytes.unsafe_ptr()), Int(mode_bytes.unsafe_ptr()))     if fp == 0:"
+  [Slice Match in src/t2m_runtime/child_process.mojo]:
+    "cmd_bytes.unsafe_ptr()), Int(mode_bytes.unsafe_ptr()))     if fp == 0:         raise Error("Failed t"
+  [Slice Match in src/t2m_runtime/child_process.mojo]:
+    "buf.append(0) var buf_ptr = buf.unsafe_ptr()          var output = String("")     while fget"
+
+Total unsafe context blocks captured: 4
+
+Feeding zero-copy segments into Gemini 3.5 Flash for refactoring synthesis...
+
+--- Synthesis Complete: Structured Markdown Report ---
+# FFI Security Audit and Refactoring Synthesis Report
+
+An automated audit of the `src/t2m_runtime` codebase identified multiple areas where native standard library C FFI mechanisms are exposed directly via unsafe raw pointers (e.g., `unsafe_ptr()` from list buffers or strings). Direct manual pointer arithmetic and calls to external functions like POSIX `popen` or `fgets` pose memory safety and stability risks if not properly encapsulated.
+
+Below is the structured refactoring synthesis and safety wrapper proposal:
+
+### Unsafe FFI Area Analysis
+
+1. **Child Process Invocation via C `popen`**
+   - **Location**: `src/t2m_runtime/child_process.mojo`
+   - **Captured Segment**: `popen(Int(cmd_bytes.unsafe_ptr()), Int(mode_bytes.unsafe_ptr()))`
+   - **Risk**: Calling standard C library functions directly with pointers obtained from Mojo `String` or `List` buffers bypasses Mojo's borrow checker. A null pointer or invalid memory bounds can trigger segmented faults immediately.
+   - **Refactoring Recommendation**: Wrap the raw FFI handlers in a safe `ChildProcess` struct that enforces memory boundaries, cleans up allocated resources on deletion (`__del__`), and performs rigorous parameters validation.
+
+2. **Buffer Management via `fgets` Loop**
+   - **Location**: `src/t2m_runtime/child_process.mojo`
+   - **Captured Segment**: `buf.append(0) var buf_ptr = buf.unsafe_ptr() var output = String("") while fget...`
+   - **Risk**: Repeatedly calling `fgets` into a raw pointer buffer is vulnerable to buffer overflow if the size parameters are miscalculated or if the stream returns unexpected content lengths.
+   - **Refactoring Recommendation**: Define a dedicated FFI buffer utility that bounds-checks reads, manages buffer sizing automatically, and converts raw segments safely back to high-level `String` or `StringView` instances.
+
+=========================================================

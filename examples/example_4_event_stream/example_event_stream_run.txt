@@ -1,0 +1,13 @@
+=========================================================
+🚀 Run Example: Real-Time AI Event Streaming
+=========================================================
+
+Prompt: Write a very short, inspiring, 3-sentence sci-fi story about compiling Mojo on Apple Silicon.
+
+Connecting stream to Gemini API...
+Streaming Response (Real-Time Tokens):
+---------------------------------------------------------
+Beneath the silent, silver chassis, the Apple Silicon chip braced for the spark of the Mojo compiler. In a microsecond of unified memory brilliance, the elegant code fused with the raw power of the neural engine. As the terminal flashed green, the developer realized they no longer held just a laptop, but a quiet, palm-sized gateway to the cosmos.
+---------------------------------------------------------
+
+=========================================================

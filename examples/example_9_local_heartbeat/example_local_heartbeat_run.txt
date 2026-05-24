@@ -1,0 +1,25 @@
+=========================================================
+💓 Local LLM Service Heartbeat Check (Qwen 3.5 MLX)
+=========================================================
+
+Pinging local service endpoint: http://localhost:1234/api/v1/chat
+Model expected: qwen3.5-0.8b-mlx@8bit
+System prompt: You answer only in rhymes.
+Payload query: What is your favorite color?
+
+💚 HEARTBEAT STATUS: ONLINE
+Latency:             275.0 ms
+Rhyming Response:    I love the **blue** of the sky, the **red** of the fire, and the **green** of the forest.
+
+---------------------------------------------------------
+🧠 Hybrid Local-Cloud Workflow Integration
+---------------------------------------------------------
+Architectural Benefits:
+ - Cost Efficiency: Local models handle frequent connection checks & raw latency tests with zero API costs.
+ - High Reasoning: Reserves high-tier cloud models (Gemini 3.5 Flash) for heavy logical tasks and synthesis.
+
+Dispatched heavy non-heartbeat task to Cloud Gemini 3.5 Flash...
+Sending to Gemini API (gemini-3.5-flash)...
+Cloud Report: The system is ONLINE and architecturally healthy, exhibiting acceptable service latency (275.0 ms) and verified, coherent local model generation.
+
+=========================================================

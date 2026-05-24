@@ -1,0 +1,6 @@
+=========================================================
+🚀 Run Example: GPU-Accelerated Hardware Analytics
+=========================================================
+
+⚠️  Apple Metal GPU is not available in the current environment.
+   Note: This example showcases Mojo's FFI capabilities when compiled on macOS.

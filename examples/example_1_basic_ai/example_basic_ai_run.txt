@@ -1,0 +1,20 @@
+=========================================================
+🚀 Progressive AI Completions Example (Crawl, Walk, Run)
+=========================================================
+
+--- [CRAWL] Mocked / Simulated AI Completion ---
+Prompt: What is your favorite color?
+Simulated Response (Rhyming): I have no eyes to see the light, but green is clean and blue is bright.
+
+--- [WALK] Local LLM Connection (localhost:1234) ---
+Endpoint: http://localhost:1234/api/v1/chat
+Model: qwen3.5-0.8b-mlx@8bit
+Prompt: What is your favorite color?
+Local LLM Response:
+I love the colors of the sky, the stars, and the night.
+
+--- [RUN] Cloud LLM Connection (OpenRouter/Gemini) ---
+Model Provider: Google Gemini API (gemini-3.5-flash)
+Prompt: Explain the advantages of Mojo for AI systems in one concise sentence.
+Gemini Response:
+Mojo accelerates AI development by combining the user-friendly syntax of Python with the bare-metal performance of C++, enabling ultra-fast, hardware-optimized model execution.

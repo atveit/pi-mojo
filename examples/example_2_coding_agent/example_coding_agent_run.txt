@@ -1,0 +1,25 @@
+=========================================================
+🚀 Systems Coding Agent Example (Cloud LLM)
+=========================================================
+
+Agent Task: Find out how many files are in the current workspace folder.
+
+--- Cloud LLM Coding Agent (OpenRouter/Gemini) ---
+Asking Gemini API (gemini-3.5-flash) to decide command...
+Cloud LLM generated command: find . -type f | wc -l
+Executing command natively via C FFI...
+Result:
+6906
+
+=========================================================
+💬 Interactive Systems Coding Agent Mode
+=================================================
+
+Enter a task for the agent (e.g. 'show files', 'get time', or press Enter to exit): Agent Task: get current date
+Asking Gemini API (gemini-3.5-flash) to decide command...
+Command Decided: date
+Executing...
+Result:
+Sun May 24 13:47:58 CEST 2026
+
+Enter a task for the agent (e.g. 'show files', 'get time', or press Enter to exit): Exited interactive mode. Goodbye!

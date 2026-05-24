@@ -1,0 +1,15 @@
+=========================================================
+🚀 Run Example: Native AI Tool Calling (Function Calling)
+=========================================================
+
+Query Prompt: What is the weather like in Oslo right now? Tell me the result in details.
+
+[Engine: Gemini Direct FFI]
+Sending first request to Gemini API (with tools)...
+🔧 [Native Mojo Tool] get_current_weather invoked for city: Oslo
+Feeding tool results back to Gemini API...
+
+Final AI Answer:
+The weather in Oslo right now is sunny, with a temperature of 21°C and a gentle wind speed of 3 m/s.
+
+=========================================================
