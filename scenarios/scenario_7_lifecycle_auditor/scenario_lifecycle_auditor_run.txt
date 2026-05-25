@@ -1,0 +1,38 @@
+=========================================================
+🤖 Scenario 7: Lifecycle Leak & File-Descriptor Auditor
+=========================================================
+
+Systems Narrative Story:
+A complex system is experiencing file descriptor leaks.
+The agent crawls code files, extracts lifecycles, and compiles
+exact file locations and proposed patching diffs.
+
+🔍 [Initiating semantic codebase leak audit]
+   Scanning package namespaces...
+   Analyzing string views of allocation scopes...
+   Scan finished: Flagged 2 potential resource leaks.
+
+📍 Leak #1: src/packages/network/pi_socket.mojo:45
+   Allocated Code: var client = socket.accept()
+   Issue Identified: Socket handle allocated but missing close() inside error branches.
+   Proposed Refactoring Diff:
+```diff
+- var client = socket.accept()
++ try:
++     var client = socket.accept()
++     # ...
++ finally:
++     client.close()
+```
+
+📍 Leak #2: src/packages/durable/pi_checkpoint_store.mojo:72
+   Allocated Code: var f = open(filepath, 'w')
+   Issue Identified: File handle opened but lacks explicit close() in disk full exception blocks.
+   Proposed Refactoring Diff:
+```diff
+- var f = open(filepath, 'w')
++ with open(filepath, 'w') as f:
+```
+
+=========================================================
+

@@ -110,22 +110,28 @@ The framework codebase is structured as a native Mojo package system located und
 │   │   │   ├── pi_ai_registry.mojo
 │   │   │   ├── pi_ai_stream.mojo
 │   │   │   └── pi_ai_types.mojo
-│   │   └── coding-agent/      # Terminal inputs and shell interpreters
-│   │       ├── pi_coding_bash.mojo
-│   │       └── pi_coding_exec.mojo
+│   │   ├── coding-agent/      # Terminal inputs and shell interpreters
+│   │   │   ├── pi_coding_bash.mojo
+│   │   │   └── pi_coding_exec.mojo
+│   │   ├── playbook/          # v0.2 Autonomous playbooks and self-improving registry
+│   │   │   ├── pi_playbook_store.mojo
+│   │   │   └── pi_playbook_agent.mojo
+│   │   └── durable/           # v0.2 Durable checkpointing and state recovery
+│   │       ├── pi_checkpoint_store.mojo
+│   │       └── pi_durable_agent.mojo
 │   └── benchmarks/            # Performance benchmarks
 │       ├── example_benchmark.mojo # Performance benchmark performing 1,000 fs ops
 │       └── benchmark_run.py   # Python runner for side-by-side benchmark execution
-├── examples/                  # Progressive usage examples (Crawl, Walk, Run)
-│   ├── example_basic_ai.mojo  # Progressive AI completions and chat example
-│   ├── example_basic_ai.md    # AI completions documentation and output
-│   ├── example_coding_agent.mojo # Progressive systems coding agent example
-│   ├── example_coding_agent.md # Coding agent documentation and output
-│   ├── example_tool_calling.mojo # Progressive AI tool calling example
-│   ├── example_tool_calling.md # AI tool calling documentation and output
-│   ├── example_event_stream.mojo # Progressive real-time AI event stream example
-│   ├── example_event_stream.md # Event stream documentation and output
-│   ├── example_gpu_analytics.mojo # Progressive GPU hardware analytics example
-│   └── example_gpu_analytics.md # GPU analytics documentation and output
+├── examples/                  # Progressive capability examples (Crawl, Walk, Run)
+│   ├── example_1_basic_ai/    # Progressive completions and chat
+│   ├── ...
+│   ├── example_11_playbook_agent/ # Example 11: Playbook learning agent
+│   └── example_12_durable_agent/  # Example 12: Crash-resilient durable agent loop
+├── scenarios/                 # Complementary Real-World Systems Scenarios
+│   ├── README.md              # Scenario hub index
+│   ├── scenario_1_onboarding_assistant/  # Scenario 1: Developer onboarding
+│   ├── ...
+│   └── scenario_10_ci_self_healer/       # Scenario 10: CI self-healing daemon
 └── README.md                  # Project documentation
+
 ```

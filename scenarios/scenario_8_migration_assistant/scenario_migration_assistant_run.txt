@@ -1,0 +1,25 @@
+=========================================================
+🤖 Scenario 8: Legacy Code Migration Assistant
+=========================================================
+
+Systems Narrative Story:
+A codebase has deprecated API method signatures. The agent executes
+a continuous compile-and-patch loop, capturing errors and refactoring
+interfaces step-by-step until the build compiles successfully.
+
+🔧 [Created legacy source file]: migration_sandbox/deprecated.mojo
+🔨 [Step 1: Attempting compilation...]
+   Compiler Diagnostic Log:
+   ⚠️  migration_sandbox/deprecated.mojo:1:1: warning: 'fn' is deprecated, use 'def' instead
+   error: compilation aborted due to warnings treated as errors
+
+🩹 [Step 2: Auto-patching deprecated signatures...]
+   Patched signature: 'fn calculate_load' -> 'def calculate_load'
+   Patched signature: 'fn main' -> 'def main'
+🔨 [Step 3: Re-compiling source codebase...]
+   Compiler Output: SUCCESS
+
+🧹 Cleaning up migration sandbox files...
+🎉 Legacy code successfully migrated to modern specification!
+=========================================================
+

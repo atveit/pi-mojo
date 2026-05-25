@@ -1,0 +1,21 @@
+=========================================================
+🤖 Scenario 4: Continuous Log Auditor Stream
+=========================================================
+
+Systems Narrative Story:
+High-throughput syslogs are audited in real time. The agent
+classifies entries by severity indexes and outputs immediate
+color-coded alerts for security and hardware warnings.
+
+🌊 [syslog stream listener active]
+---------------------------------------------------------
+🟢 [NOMINAL INFO]     May 25 12:01:05 server-node-1 sshd[12401]: Connection from 203.0.113.50 port 49152
+🟡 [WARNING ALERT]     May 25 12:01:06 server-node-1 sshd[12401]: WARNING: Password authentication failed for root
+🟢 [NOMINAL INFO]     May 25 12:01:08 server-node-1 database[988]: INFO: Query latency nominal at 3ms
+🔴 [CRITICAL SECURITY] May 25 12:01:10 server-node-1 sshd[12401]: EXPLOIT_ATTEMPT: Root login attempt with CVE-2024-3094 signature
+🟠 [HARDWARE ALERT]    May 25 12:01:12 server-node-1 systemd[1]: ERROR: Disk space critical on /var/log
+---------------------------------------------------------
+
+🔒 Stream audit check concluded: 1 Security Threat, 1 Hardware Issue flagged.
+=========================================================
+
