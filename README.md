@@ -1,6 +1,6 @@
 # pi-mojo 🤖
 
-`pi-mojo` is a native [Mojo](https://docs.modular.com/mojo/) port of [Pi](https://github.com/earendil-works/pi)—a popular, tool-efficient agentic AI platform (utilizing only 4 core tools) prominent in open-source systems like [OpenClaw](https://github.com/openclaw/openclaw). It provides the [Mojo](https://docs.modular.com/mojo/) community with a compiled, self-contained reference implementation to explore systems-level agent architectures, type-safe structures, and native C integrations.
+`pi-mojo` is a native [Mojo](https://docs.modular.com/mojo/) port of [Pi](https://github.com/earendil-works/pi)—a popular, tool-efficient agentic AI platform (utilizing only 4 core tools) prominent in open-source systems like [OpenClaw](https://github.com/openclaw/openclaw). It provides the [Mojo](https://docs.modular.com/mojo/) community with a compiled, self-contained reference implementation to explore systems-level agent architectures, type-safe structures, and native C integrations. 
 
 ---
 
@@ -88,6 +88,12 @@ An autonomous systems agent using the v0.2 `durable` package to checkpoint its f
 mojo -I src examples/example_12_durable_agent/example_durable_agent.mojo --interactive
 ```
 
+#### 🔬 [Example 13: Basic Karpathy Autoresearch Loop](examples/example_13_autoresearch/)
+An autonomous systems agent implementing a basic Karpathy autoresearch loop (Propose -> Compile/Run -> Evaluate Metric -> Keep/Discard) to dynamically optimize a math compute kernel.
+```bash
+mojo run -I src examples/example_13_autoresearch/example_autoresearch.mojo
+```
+
 ---
 
 ## 🏗️ High-Level System Architecture
@@ -119,5 +125,5 @@ For details on running these operations storyboards, see the [Scenarios Hub READ
 ---
 
 ## 🛡️ License
-Licensed under the MIT License (refer to the `LICENSE` file for details). All attributions belong to the original upstream **Pi** development team.
+Licensed under the MIT License (refer to the `LICENSE` file for details). 
 

@@ -25,6 +25,7 @@ Each scenario is a self-contained environment with its own code, walk-through do
 | **[Scenario 9: Cluster Recovery Monitor](scenario_9_db_recovery_monitor/)** | Latency Probe | [Example 9](../examples/example_9_local_heartbeat) | Probes local service ports and triggers simulated failover systems recovery playbooks. |
 | **[Scenario 10: CI Self-Healer Daemon](scenario_10_ci_self_healer/)** | Autonomous Loop | [Example 10](../examples/example_10_full_fledged_agent) | Runs a ticking daemon that auto-detects integration failures and corrects files. |
 | **[Scenario 11: Iterative Deep Research Agent](scenario_11_deep_researcher/)** | Multi-Turn Search | [Example 6](../examples/example_6_web_researcher) | Coordinates long-horizon, multi-turn information gathering using multiple search APIs (Tavily, Exa, Brave, Google, Bing). |
+| **[Scenario 12: FlashInfer GPU Competition Optimizer](scenario_12_gpu_kernel_optimizer/)** | GPU Tuning Loop | [Example 13](../examples/example_13_autoresearch) | Optimizes FP8 MoE routing GPU kernels for the MLSys 2026 contest, logging FlashInfer-Bench traces. |
 
 ---
 
