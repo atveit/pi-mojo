@@ -108,7 +108,8 @@ struct PlaybookStore:
             elif line.startswith("- **Tags**:"):
                 tags = String(py=line_py[11:].strip())
             elif line.startswith("- **Criteria**:"):
-                criteria = String(py=line_py[14:].strip())
+                criteria = String(py=line_py[15:].strip())
+
             elif line.startswith("## Steps"):
                 in_steps = True
             elif in_steps and len(line) > 0:

@@ -160,6 +160,13 @@ def _init_module() raises:
     if builtins.bool(g.get("_module_init_3a36321f", False)):
         return
     g["_module_init_3a36321f"] = True
+    g["DEFAULT_API"] = DEFAULT_API
+    g["DEFAULT_PROVIDER"] = DEFAULT_PROVIDER
+    g["DEFAULT_MODEL_ID"] = DEFAULT_MODEL_ID
+    g["DEFAULT_MODEL_NAME"] = DEFAULT_MODEL_NAME
+    g["DEFAULT_BASE_URL"] = DEFAULT_BASE_URL
+    g["DEFAULT_MIN_TOKEN_SIZE"] = DEFAULT_MIN_TOKEN_SIZE
+    g["DEFAULT_MAX_TOKEN_SIZE"] = DEFAULT_MAX_TOKEN_SIZE
     pi_ai_event_stream._init_module()
     pi_ai_registry._init_module()
     pi_ai_types._init_module()
@@ -744,6 +751,201 @@ class GlobalThis:
     def __getattr__(self, name):
         return globals().get(name)
 globalThis = GlobalThis()
+
+def randomId(prefix):
+    import time
+    import random
+    now_ms = int(time.time() * 1000)
+    chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+    rand_suffix = "".join(random.choice(chars) for _ in range(11))
+    return f"{prefix}:{now_ms}:{rand_suffix}"
+
+def FauxProviderRegistration(api, models, getModel, state, setResponses, appendResponses, getPendingResponseCount, unregister):
+    return to_js_obj({
+        "api": api,
+        "models": models,
+        "getModel": getModel,
+        "state": state,
+        "setResponses": setResponses,
+        "appendResponses": appendResponses,
+        "getPendingResponseCount": getPendingResponseCount,
+        "unregister": unregister
+    })
+
+def DEFAULT_USAGE():
+    return to_js_obj({
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": 0.0
+    })
+
+def createErrorMessage(error, api, provider, modelId):
+    return to_js_obj({
+        "role": "assistant",
+        "content": JSList([]),
+        "api": api,
+        "provider": provider,
+        "model": modelId,
+        "responseModel": "",
+        "responseId": "",
+        "diagnostics": None,
+        "usage": to_js_obj(DEFAULT_USAGE()),
+        "stopReason": "error",
+        "errorMessage": String(error),
+        "timestamp": Date.now()
+    })
+
+def createAssistantMessageEventStream():
+    return AssistantMessageEventStream()
+
+def cloneMessage(message, api, provider, modelId):
+    message = to_js_obj(message)
+    cloned = to_js_obj(structuredClone(message))
+    cloned.api = api
+    cloned.provider = provider
+    cloned.model = modelId
+    cloned.timestamp = (cloned.timestamp if not objectIs(cloned.timestamp, None) else Date.now())
+    cloned.usage = (cloned.usage if not objectIs(cloned.usage, None) else to_js_obj(DEFAULT_USAGE()))
+    return cloned
+
+def withUsageEstimate(message, context, options, promptCache):
+    message = to_js_obj(message)
+    context = to_js_obj(context)
+    options = to_js_obj(options)
+    promptCache = to_js_obj(promptCache)
+    
+    promptText = serializeContext(context)
+    promptTokens = estimateTokens(promptText)
+    outputTokens = estimateTokens(String(assistantContentToText(message.content)))
+    input_val = promptTokens
+    cacheRead = 0
+    cacheWrite = 0
+    sessionId = options.sessionId
+    if sessionId and options.cacheRetention != "none":
+        previousPrompt = promptCache.get(sessionId)
+        if previousPrompt:
+            cachedChars = commonPrefixLength(String(previousPrompt), promptText)
+            cacheRead = estimateTokens(String(slice(previousPrompt, 0, cachedChars)))
+            cacheWrite = estimateTokens(String(slice(promptText, cachedChars)))
+            input_val = max(0, promptTokens - cacheRead)
+        else:
+            cacheWrite = promptTokens
+        promptCache.set(sessionId, promptText)
+    
+    cloned = to_js_obj(structuredClone(message))
+    cloned.usage = to_js_obj({
+        "input": input_val,
+        "output": outputTokens,
+        "cacheRead": cacheRead,
+        "cacheWrite": cacheWrite,
+        "totalTokens": input_val + outputTokens + cacheRead + cacheWrite,
+        "cost": to_js_obj({"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0, "total": 0})
+    })
+    return cloned
+
+def createAbortedMessage(partial):
+    cloned = to_js_obj(structuredClone(partial))
+    cloned.stopReason = "aborted"
+    cloned.errorMessage = "Request was aborted"
+    cloned.timestamp = Date.now()
+    return cloned
+
+def streamWithDeltas(stream, message, minTokenSize, maxTokenSize, tokensPerSecond, signal):
+    stream = to_js_obj(stream)
+    message = to_js_obj(message)
+    minTokenSize = Int(minTokenSize)
+    maxTokenSize = Int(maxTokenSize)
+    tokensPerSecond = to_js_obj(tokensPerSecond)
+    signal = to_js_obj(signal)
+    
+    cloned = to_js_obj(structuredClone(message))
+    cloned.content = to_js_obj([])
+    partial = cloned
+    
+    if signal.aborted:
+        aborted = createAbortedMessage(partial)
+        stream.append(to_js_obj({"type": "error", "reason": "aborted", "error": aborted}))
+        stream.end(aborted)
+        return
+        
+    stream.append(to_js_obj({"type": "start", "partial": partial}))
+    
+    for index in range(len(message.content)):
+        if signal.aborted:
+            aborted = createAbortedMessage(partial)
+            stream.append(to_js_obj({"type": "error", "reason": "aborted", "error": aborted}))
+            stream.end(aborted)
+            return
+            
+        block = to_js_obj(message.content[index])
+        if block.type == "thinking":
+            new_content = list(partial.content)
+            new_content.append(to_js_obj({"type": "thinking", "thinking": ""}))
+            partial.content = JSList(new_content)
+            
+            stream.append(to_js_obj({"type": "thinking_start", "contentIndex": index, "partial": partial}))
+            
+            for chunk in splitStringByTokenSize(String(block.thinking), minTokenSize, maxTokenSize):
+                wait_promise(scheduleChunk(chunk, tokensPerSecond))
+                if signal.aborted:
+                    aborted = createAbortedMessage(partial)
+                    stream.append(to_js_obj({"type": "error", "reason": "aborted", "error": aborted}))
+                    stream.end(aborted)
+                    return
+                partial.content[index].thinking = String(partial.content[index].thinking) + String(chunk)
+                stream.append(to_js_obj({"type": "thinking_delta", "contentIndex": index, "delta": chunk, "partial": partial}))
+                
+            stream.append(to_js_obj({"type": "thinking_end", "contentIndex": index, "content": block.thinking, "partial": partial}))
+            continue
+            
+        if block.type == "text":
+            new_content = list(partial.content)
+            new_content.append(to_js_obj({"type": "text", "text": ""}))
+            partial.content = JSList(new_content)
+            
+            stream.append(to_js_obj({"type": "text_start", "contentIndex": index, "partial": partial}))
+            
+            for chunk in splitStringByTokenSize(String(block.text), minTokenSize, maxTokenSize):
+                wait_promise(scheduleChunk(chunk, tokensPerSecond))
+                if signal.aborted:
+                    aborted = createAbortedMessage(partial)
+                    stream.append(to_js_obj({"type": "error", "reason": "aborted", "error": aborted}))
+                    stream.end(aborted)
+                    return
+                partial.content[index].text = String(partial.content[index].text) + String(chunk)
+                stream.append(to_js_obj({"type": "text_delta", "contentIndex": index, "delta": chunk, "partial": partial}))
+                
+            stream.append(to_js_obj({"type": "text_end", "contentIndex": index, "content": block.text, "partial": partial}))
+            continue
+            
+        new_content = list(partial.content)
+        new_content.append(to_js_obj({"type": "toolCall", "id": block.id, "name": block.name, "arguments": to_js_obj({})}))
+        partial.content = JSList(new_content)
+        
+        stream.append(to_js_obj({"type": "toolcall_start", "contentIndex": index, "partial": partial}))
+        
+        for chunk in splitStringByTokenSize(String(JSON.stringify(block.arguments)), minTokenSize, maxTokenSize):
+            wait_promise(scheduleChunk(chunk, tokensPerSecond))
+            if signal.aborted:
+                aborted = createAbortedMessage(partial)
+                stream.append(to_js_obj({"type": "error", "reason": "aborted", "error": aborted}))
+                stream.end(aborted)
+                return
+            stream.append(to_js_obj({"type": "toolcall_delta", "contentIndex": index, "delta": chunk, "partial": partial}))
+            
+        partial.content[index].arguments = block.arguments
+        stream.append(to_js_obj({"type": "toolcall_end", "contentIndex": index, "toolCall": block, "partial": partial}))
+        
+    if message.stopReason == "error" or message.stopReason == "aborted":
+        stream.append(to_js_obj({"type": "error", "reason": message.stopReason, "error": message}))
+        stream.end(message)
+        return
+        
+    stream.append(to_js_obj({"type": "done", "reason": message.stopReason, "message": message}))
+    stream.end(message)
     """
     try:
         builtins.exec(code, g)

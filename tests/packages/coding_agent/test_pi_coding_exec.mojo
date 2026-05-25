@@ -34,7 +34,30 @@ def test_exec_result() raises:
     assert_equal(parsed_exec_res.code, 1)
     assert_true(parsed_exec_res.killed, "execution should be killed")
 
+def test_exec_options() raises:
+    utils.console_log("  - test_exec_options")
+    var builtins = Python.import_module("builtins")
+    var g = builtins.dict()
+    var signal = builtins.eval("type('MockSignal', (object,), {'aborted': False})()", g)
+
+    var timeout = 5000
+    var cwd = String("/Users/amund/workspace")
+    
+    var opts = exec_pkg.ExecOptions(signal, timeout, cwd)
+    assert_true(Bool(opts.signal == signal), "signal should match")
+    assert_equal(opts.timeout, timeout)
+    assert_equal(opts.cwd, cwd)
+    
+    var opts_py = opts.to_py()
+    var parsed = exec_pkg.ExecOptions(opts_py)
+    assert_true(Bool(parsed.signal == signal), "parsed signal should match")
+    assert_equal(parsed.timeout, timeout)
+    assert_equal(parsed.cwd, cwd)
+
+
 def main() raises:
     utils.console_log("🧪 Running test_pi_coding_exec.mojo")
     test_exec_result()
+    test_exec_options()
     utils.console_log("✅ test_pi_coding_exec.mojo PASSED\n")
+

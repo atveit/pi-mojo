@@ -273,7 +273,12 @@ struct AgentLoopConfig(ImplicitlyCopyable):
         return d
 
 struct CustomAgentMessages(ImplicitlyCopyable):
-    pass
+    def __init__(out self):
+        pass
+
+    def to_py(self) raises -> PythonObject:
+        var builtins = Python.import_module("builtins")
+        return builtins.dict()
 
 struct AgentState(ImplicitlyCopyable):
     var systemPrompt: String

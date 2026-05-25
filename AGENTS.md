@@ -31,6 +31,8 @@ Pixi defines automated tasks inside `pixi.toml` for rapid local workflows. Execu
 * **Run Benchmark**: `pixi run benchmark` (compares POSIX system call latencies against Node.js benchmarks)
 * **Run Basic Completions**: `pixi run example-ai` (executes basic progressive AI Completions)
 * **Run Systems Coder**: `pixi run example-coding` (executes systems coding agent)
+* **Run Coverage**: `pixi run coverage` (compiles and executes test coverage report)
+
 
 ---
 
@@ -54,6 +56,13 @@ To build a zero-overhead, highly optimized standalone native binary that elimina
 ```bash
 mojo build -O3 -I src examples/example_2_coding_agent/example_coding_agent.mojo -o build/coding_agent
 ```
+
+### 4. Running Test Coverage Suite
+To run the automated AST-based test coverage rewriter and reporter on all core packages:
+```bash
+pixi run coverage
+```
+This task will virtualize the workspace under `.mojo_cov_work/` (preserving relative import paths), instrument all package source and test structures with exception-safe FFI tracker callbacks, execute the unit tests, and compile an offline index dashboard inside the `coverage_html/` directory.
 
 ---
 

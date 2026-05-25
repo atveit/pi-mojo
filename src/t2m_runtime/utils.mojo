@@ -279,7 +279,7 @@ def _init_globals() raises -> PythonObject:
             "        return builtins.list(self._dict.values())\n"
             "class Set:\n"
             "    def __init__(self):\n"
-            "        self._set = builtins.set()\n"
+            "        self._set = set()\n"
             "    def add(self, val):\n"
             "        self._set.add(val)\n"
             "        return self\n"

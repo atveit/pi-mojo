@@ -435,6 +435,17 @@ class Map(dict):
             del self[key]
             return True
         return False
+    def clear(self):
+        super().clear()
+    def entries(self):
+        import builtins
+        return builtins.list(self.items())
+    def keys(self):
+        import builtins
+        return builtins.list(super().keys())
+    def values(self):
+        import builtins
+        return builtins.list(super().values())
 
 class JSObject(dict):
     def toString(self):

@@ -36,7 +36,26 @@ def test_bash_result() raises:
     assert_true(not parsed.cancelled, "cancelled should be false")
     assert_true(not parsed.truncated, "truncated should be false")
 
+def test_bash_executor_options() raises:
+    utils.console_log("  - test_bash_executor_options")
+    var builtins = Python.import_module("builtins")
+    var g = builtins.dict()
+    var on_chunk = builtins.eval("lambda x: None", g)
+    var signal = builtins.eval("type('MockSignal', (object,), {'aborted': False})()", g)
+
+    
+    var opts = bash.BashExecutorOptions(on_chunk, signal)
+    assert_true(Bool(opts.onChunk == on_chunk), "onChunk should match")
+    assert_true(Bool(opts.signal == signal), "signal should match")
+    
+    var opts_py = opts.to_py()
+    var parsed = bash.BashExecutorOptions(opts_py)
+    assert_true(Bool(parsed.onChunk == on_chunk), "parsed onChunk should match")
+
+
 def main() raises:
     utils.console_log("🧪 Running test_pi_coding_bash.mojo")
     test_bash_result()
+    test_bash_executor_options()
     utils.console_log("✅ test_pi_coding_bash.mojo PASSED\n")
+

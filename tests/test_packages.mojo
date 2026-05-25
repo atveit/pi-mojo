@@ -15,12 +15,17 @@ def main() raises:
     utils.console_log("=========================================================\n")
     
     run_test_file("tests/packages/ai/test_pi_ai_types.mojo")
+    run_test_file("tests/packages/ai/test_pi_ai_types_routing.mojo")
     run_test_file("tests/packages/ai/test_pi_ai_provider_faux.mojo")
     run_test_file("tests/packages/ai/test_pi_ai_registry.mojo")
     run_test_file("tests/packages/coding_agent/test_pi_coding_bash.mojo")
     run_test_file("tests/packages/coding_agent/test_pi_coding_exec.mojo")
     run_test_file("tests/packages/agent/test_pi_agent_types.mojo")
     run_test_file("tests/packages/agent/test_pi_agent.mojo")
+    run_test_file("tests/packages/durable/test_pi_checkpoint.mojo")
+    run_test_file("tests/packages/playbook/test_pi_playbook.mojo")
+
+
     
     utils.console_log("=========================================================")
     utils.console_log("✅ All packages Unit Tests PASSED Successfully")

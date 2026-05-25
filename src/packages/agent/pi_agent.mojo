@@ -1119,20 +1119,18 @@ class Agent:
     def state(self):
         self = to_js_obj(self)
         return self._state
-    def steeringMode(self, mode):
+    def steeringMode(self, *args):
         self = to_js_obj(self)
-        mode = to_js_obj(mode)
-        self.steeringQueue.mode = mode
-    def steeringMode(self):
+        if args:
+            self.steeringQueue.mode = to_js_obj(args[0])
+        else:
+            return self.steeringQueue.mode
+    def followUpMode(self, *args):
         self = to_js_obj(self)
-        return self.steeringQueue.mode
-    def followUpMode(self, mode):
-        self = to_js_obj(self)
-        mode = to_js_obj(mode)
-        self.followUpQueue.mode = mode
-    def followUpMode(self):
-        self = to_js_obj(self)
-        return self.followUpQueue.mode
+        if args:
+            self.followUpQueue.mode = to_js_obj(args[0])
+        else:
+            return self.followUpQueue.mode
     def steer(self, message):
         self = to_js_obj(self)
         message = to_js_obj(message)

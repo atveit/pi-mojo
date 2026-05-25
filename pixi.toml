@@ -13,4 +13,6 @@ python = ">=3.14.5,<3.15"
 benchmark = "python src/benchmarks/benchmark_run.py"
 example-ai = "mojo run -I src examples/example_basic_ai.mojo"
 example-coding = "mojo run -I src examples/example_coding_agent.mojo"
-test = "mojo run -I src tests/test_t2m_runtime.mojo && mojo run -I src tests/test_packages.mojo"
+test = "mojo run -I src tests/test_t2m_runtime.mojo && mojo run -I src tests/test_packages.mojo && mojo run -I src -I scenarios/scenario_11_deep_researcher tests/test_scenario_deep_researcher.mojo"
+coverage = "python src/mojo-contrib/mojo-test-cov/runner.py --source src/packages --test tests/test_packages.mojo"
+
