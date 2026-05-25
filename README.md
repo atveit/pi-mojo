@@ -96,7 +96,7 @@ mojo -I src examples/example_12_durable_agent/example_durable_agent.mojo --inter
 
 In v0.2, we introduced the **Autonomous Playbook package** (`src/packages/playbook/`) to enable agents to learn from successful executions and avoid trial-and-error, as well as the **Durable Checkpointing package** (`src/packages/durable/`) to enable resilient state recovery across process boundaries. Each of the examples is built around a concrete systems-level story narrative.
 
-For complete technical implementation details, sequence diagrams of the execution, and the repository directory layout, refer to [ARCHITECTURE.md](ARCHITECTURE.md).
+For complete technical implementation details, sequence diagrams of the execution, and the repository directory layout, refer to [ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## 🎭 Real-World Systems Scenarios
 

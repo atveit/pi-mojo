@@ -38,11 +38,11 @@ Created a brand new top-level **[Scenarios Hub](scenarios/)** with ten dedicated
 ### 🔄 Changed
 * Upgraded repository version number to `0.2.0` in [pixi.toml](pixi.toml).
 * Updated root [README.md](README.md) with a dedicated Real-World Systems Scenarios block linking to the scenarios hub.
-* Updated [ARCHITECTURE.md](ARCHITECTURE.md) repo layout mapping to catalog all new `playbook`, `durable`, and `scenarios/` structures.
+* Updated [ARCHITECTURE.md](docs/ARCHITECTURE.md) repo layout mapping to catalog all new `playbook`, `durable`, and `scenarios/` structures.
 
 ---
 
 ### 📖 Release Documentation
 * **Plan & Design Blueprint**: [docs/20260525v02plan.md](docs/20260525v02plan.md)
 * **Scenarios Hub Index**: [scenarios/README.md](scenarios/README.md)
-* **Technical System Blueprint**: [ARCHITECTURE.md](ARCHITECTURE.md)
+* **Technical System Blueprint**: [ARCHITECTURE.md](docs/ARCHITECTURE.md)
