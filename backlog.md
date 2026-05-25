@@ -29,3 +29,26 @@ This document outlines planned optimizations, features, and systems engineering 
 * **Current State**: Scraped page bodies are truncated to a hard static cap of 40,000 characters to prevent LLM API timeouts.
 * **Target Solution**:
   * Dynamically scale the page truncation limits by measuring the target model's context bounds (`gemini-3.5-flash` context limits) and subtracting active prompt tokens, maximizing data density per turn.
+
+### 5. Resilient Search Provider Fallbacks & Load Balancing
+* **Current State**: The search manager relies strictly on finding keys in alphabetical order, falling back to static documentation if the primary key fails or reaches credit caps (e.g. Exa HTTP 402).
+* **Target Solution**:
+  * Implement dynamic API failover logic inside `search_providers.mojo`.
+  * If a search API returns an HTTP 402/429/500 error, automatically catch the exception and immediately forward the search to the next available configured provider key in alphabetical order.
+
+### 6. Multi-Model Speculative Synthesis & Consensus Voting
+* **Current State**: The coordinator uses a single model execution pass to analyze gap analysis and compile synthesized intelligence reports.
+* **Target Solution**:
+  * Spawn parallel asynchronous model synthesis threads targeting multiple reasoning models.
+  * Execute a consensus pass to compile contradictory viewpoints and output a balanced, highly verified final markdown briefing.
+
+### 7. Native JSON Schema Output Gating
+* **Current State**: Synthesis relies on natural language prompt instructions to output clean markdown segments and checklists.
+* **Target Solution**:
+  * Integrate structured schema definitions directly into `research_planner.mojo` (e.g., using Gemini's native structured outputs or strict JSON schema enforcement) to guarantee that target compiled reports conform to standard citation and verification schemas.
+
+### 8. Automated CI Coverage Reports Publishing
+* **Current State**: Coverage reports (`pixi run coverage`) are executed locally, compiling an offline index dashboard inside the local `coverage_html/` directory.
+* **Target Solution**:
+  * Establish an automated GitHub Actions runner task to compile the coverage tracing suite on every pull request.
+  * Automatically publish AST-based interop reports and test coverage dashboards directly to the repository's GitHub Pages or release attachments.
