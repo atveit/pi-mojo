@@ -38,7 +38,7 @@ def main() raises:
     
     var dir_to_audit = String("src/t2m_runtime")
     utils.console_log("Target Crawl Directory:", dir_to_audit)
-    utils.console_log("Auditing Objective: Identify raw pointer FFI bindings and suggest safety wrappers\n")
+    utils.console_log("Auditing Objective: Identify raw pointer interop bindings and suggest safety wrappers\n")
     
     var gemini_key: String
     var openrouter_key: String
@@ -47,8 +47,8 @@ def main() raises:
     var active_key = openrouter_key if openrouter_key else gemini_key
     var is_openrouter = True if openrouter_key else False
     
-    # 1. Crawl codebase using readdirSync FFI
-    utils.console_log("Crawling directory structures using readdirSync FFI...")
+    # 1. Crawl codebase using readdirSync interop
+    utils.console_log("Crawling directory structures using readdirSync interop...")
     var files_py = fs.readdirSync(dir_to_audit)
     var builtins = Python.import_module("builtins")
     var files_len = Int(py=builtins.len(files_py))
@@ -65,7 +65,7 @@ def main() raises:
     utils.console_log("")
     
     # 2. Extract zero-copy StringView slices of code areas using unsafe pointer operations
-    utils.console_log("Extracting zero-copy StringView slices of unsafe FFI areas...")
+    utils.console_log("Extracting zero-copy StringView slices of unsafe interop areas...")
     var all_slices = List[String]()
     for i in range(len(mojo_files)):
         var file_slices = scan_file_for_unsafe(mojo_files[i])
@@ -86,7 +86,7 @@ def main() raises:
         utils.console_log("Synthesizing refactoring proposals using simulated model...")
         var mock_proposal = (
             "# Refactoring Proposal & Semantic Audit Report\n\n"
-            "## 1. Unsafe FFI DDLHandle Detections\n"
+            "## 1. Unsafe interop DDLHandle Detections\n"
             "We identified several direct pointer references (`unsafe_ptr()`) and dynamic library loadings (`OwnedDLHandle`) in `child_process.mojo`.\n\n"
             "## 2. Recommended Safety Upgrades\n"
             "```diff\n"
@@ -96,7 +96,7 @@ def main() raises:
             "+ var fp = popen(safe_cmd.get(), Int(mode_bytes.unsafe_ptr()))\n"
             "```\n"
             "## 3. Threat Assessment & Safety Level\n"
-            "**Threat Level**: Low. FFI boundaries are isolated inside the modular `t2m_runtime` system library wrapper.\n"
+            "**Threat Level**: Low. interoperability boundaries are isolated inside the modular `t2m_runtime` system library wrapper.\n"
         )
         utils.console_log("\n--- Synthesis Complete: Structured Markdown Report ---")
         utils.console_log(mock_proposal)
@@ -106,7 +106,7 @@ def main() raises:
     # Real cloud analysis
     utils.console_log("Feeding zero-copy segments into Gemini 3.5 Flash for refactoring synthesis...")
     var auditor_prompt = (
-        "You are a systems security auditor. Audit these code slices and recommend refactorings to make FFI calls safer:\n\n"
+        "You are a systems security auditor. Audit these code slices and recommend refactorings to make interop calls safer:\n\n"
         + concatenated_context
     )
     
@@ -123,7 +123,7 @@ def main() raises:
         utils.console_log("⚠️  Live cloud API call timed out or failed. Falling back to simulated audit report.")
         var simulated_proposal = (
             "# Refactoring Proposal & Semantic Audit Report (Simulated Fallback)\n\n"
-            "## 1. Unsafe FFI DDLHandle Detections\n"
+            "## 1. Unsafe interop DDLHandle Detections\n"
             "We identified direct pointer references (`unsafe_ptr()`) and dynamic library loadings (`OwnedDLHandle`) in the captured slices.\n\n"
             "## 2. Recommended Safety Upgrades\n"
             "Wrap raw pointer offsets inside memory-safe wrappers to isolate unsafe operations.\n"

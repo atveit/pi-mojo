@@ -14,7 +14,7 @@ This example implements a progressive, three-tiered AI completions system:
 The script leverages the modular `t2m_runtime.llm` library to separate system logic from the client example:
 
 #### 1. Loading Environment Keys
-API credentials are dynamically loaded from the host environment or a local `.env` file at runtime using Python's `os` FFI bindings:
+API credentials are dynamically loaded from the host environment or a local `.env` file at runtime using Python's `os` interop bindings:
 ```mojo
 var gemini_key: String
 var openrouter_key: String

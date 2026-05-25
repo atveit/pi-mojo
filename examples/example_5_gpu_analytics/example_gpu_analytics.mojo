@@ -3,7 +3,7 @@ import t2m_runtime.utils as utils
 from std.python import Python
 
 def cpu_classify(text: String) raises -> List[Int]:
-    # A standard CPU-based token scanner matching characters using Python FFI
+    # A standard CPU-based token scanner matching characters using Python interop
     var result = List[Int]()
     var builtins = Python.import_module("builtins")
     var py_text = builtins.str(text)
@@ -25,10 +25,10 @@ def main() raises:
     
     if not is_metal_available():
         utils.console_log("⚠️  Apple Metal GPU is not available in the current environment.")
-        utils.console_log("   Note: This example showcases Mojo's FFI capabilities when compiled on macOS.")
+        utils.console_log("   Note: This example showcases Mojo's interop capabilities when compiled on macOS.")
         return
         
-    utils.console_log("System GPU: Apple Metal Core FFI available")
+    utils.console_log("System GPU: Apple Metal Core interop available")
     utils.console_log("Initializing Metal Classifier pipeline on GPU...")
     var classifier = MetalClassifier()
     
@@ -68,5 +68,5 @@ def main() raises:
     utils.console_log("📊 Hardware Analytics Summary")
     utils.console_log("=========================================================")
     utils.console_log("Classification accuracy match: PASS")
-    utils.console_log("Apple Metal FFI Parallel Dispatch Success")
+    utils.console_log("Apple Metal interop Parallel Dispatch Success")
     utils.console_log("=========================================================\n")

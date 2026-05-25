@@ -20,7 +20,7 @@ def main() raises:
     var session_id = "session_durable_demo"
     var task = "Create a directory 'sandbox_durable', write a file 'sandbox_durable/progress.txt' containing 'step=1', and verify it exists."
     
-    utils.console_log("This example demonstrates FFI JSON state checkpointing:")
+    utils.console_log("This example demonstrates Python JSON state checkpointing:")
     utils.console_log("1. **Serialization**: State (messages, history, steps) is saved to disk at every turn.")
     utils.console_log("2. **Recovery**: If interrupted/crashed, the agent rehydrates from the last step.\n")
 

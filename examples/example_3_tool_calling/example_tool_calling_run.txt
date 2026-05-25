@@ -4,7 +4,7 @@
 
 Query Prompt: What is the weather like in Oslo right now? Tell me the result in details.
 
-[Engine: Gemini Direct FFI]
+[Engine: Gemini Direct interop]
 Sending first request to Gemini API (with tools)...
 🔧 [Native Mojo Tool] get_current_weather invoked for city: Oslo
 Feeding tool results back to Gemini API...

@@ -108,7 +108,7 @@ def main() raises:
     utils.console_log("")
     
     if gemini_key:
-        utils.console_log("[Engine: Gemini Direct FFI]")
+        utils.console_log("[Engine: Gemini Direct interop]")
         try:
             var answer = call_gemini_with_tools(gemini_key, prompt)
             utils.console_log("\nFinal AI Answer:")

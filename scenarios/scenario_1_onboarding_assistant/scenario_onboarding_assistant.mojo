@@ -18,7 +18,7 @@ def main() raises:
 
     var task = (
         "Run system environment path checks. Specifically:\n"
-        "1. Read shell environment paths using Python FFI ('PATH', 'SHELL', 'LANG').\n"
+        "1. Read shell environment paths using Python interop ('PATH', 'SHELL', 'LANG').\n"
         "2. Synthesize an onboarding diagnostics checklist summarizing standard development paths.\n"
         "3. Write the diagnostic summary checklist into 'onboarding_diagnostics.txt'."
     )

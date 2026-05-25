@@ -18,8 +18,8 @@ comptime CHAR_OTHER: UInt8 = 9
 
 comptime DEFAULT_LIB_PATH = "/Users/amund/MOJOPERF/mojo-json/metal"
 
-# C Function types for Metal FFI
-# Note: we use standard fn type signatures for FFI function pointer representations
+# C Function types for Metal interop
+# Note: we use standard fn type signatures for interop function pointer representations
 comptime InitFnType = def (Int) thin abi("C") -> Int
 comptime FreeFnType = def (Int) thin abi("C") -> None
 comptime ClassifyFnType = def (Int, Int, Int, UInt32) thin abi("C") -> Int32
@@ -68,7 +68,7 @@ def run_benchmark() raises:
     print("🔥 Smoke Test: Metal GPU vs CPU Character Classification")
     print("---------------------------------------------------------")
 
-    # Load FFI Bridge
+    # Load interop Bridge
     var dylib_path = DEFAULT_LIB_PATH + "/libmetal_bridge.dylib"
     var lib = OwnedDLHandle(dylib_path)
 

@@ -21,7 +21,7 @@ comptime CHAR_OTHER: UInt8 = 9
 
 comptime DEFAULT_LIB_PATH = "/Users/amund/pi-mojo/t2m_runtime/metal"
 
-# C Function types for Metal FFI
+# C Function types for Metal interop
 comptime InitFnType = def (Int) thin abi("C") -> Int
 comptime FreeFnType = def (Int) thin abi("C") -> None
 comptime ClassifyFnType = def (Int, Int, Int, UInt32) thin abi("C") -> Int32

@@ -18,7 +18,7 @@ This example demonstrates how to register native Mojo functions as tools (Functi
 This example demonstrates how to integrate native Mojo functions into LLM agent workflows:
 
 #### 1. Defining Native Mojo Tools
-Native functions must accept and return strict types, utilizing `raises` for FFI safety:
+Native functions must accept and return strict types, utilizing `raises` for interop safety:
 ```mojo
 def get_current_weather(city: String) raises -> String:
     utils.console_log("🔧 [Native Mojo Tool] get_current_weather invoked for city:", city)
@@ -82,7 +82,7 @@ Below is the real console output demonstrating a successful native tool invocati
 
 Query Prompt: What is the weather like in Oslo right now? Tell me the result in details.
 
-[Engine: Gemini Direct FFI]
+[Engine: Gemini Direct interop]
 Sending first request to Gemini API (with tools)...
 🔧 [Native Mojo Tool] get_current_weather invoked for city: Oslo
 Feeding tool results back to Gemini API...

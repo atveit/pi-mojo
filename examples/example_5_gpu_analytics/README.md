@@ -3,10 +3,10 @@
 This example showcases Mojo's high-performance hardware capabilities. It dispatches a parallel token classification pipeline directly to the GPU using native hardware-accelerated bindings. It then benchmarks this parallel GPU dispatch against a standard CPU-based serial scalar loop.
 
 ### ⚙️ How it Works
-1. **GPU Detection**: The agent checks if the hardware-accelerated FFI dispatch libraries are available in the system environment.
+1. **GPU Detection**: The agent checks if the hardware-accelerated interop dispatch libraries are available in the system environment.
 2. **GPU Dispatch**: Using `MetalClassifier`, the agent compiles and launches parallel kernels on the GPU, scanning and classifying syntax elements (e.g. `{` or `"`) in a target JSON payload concurrently.
 3. **CPU Execution**: For comparison, the agent runs a standard, single-threaded scalar character scanning loop on the CPU.
-4. **Performance Comparison**: The execution time of both methods is tracked using high-precision FFI timers to report performance metrics.
+4. **Performance Comparison**: The execution time of both methods is tracked using high-precision precision timers to report performance metrics.
 
 ### 📄 Source Code & Captured Run
 - **Source Code**: [example_gpu_analytics.mojo](example_gpu_analytics.mojo)
@@ -17,7 +17,7 @@ This example showcases Mojo's high-performance hardware capabilities. It dispatc
 This example compares hardware-accelerated parallel execution against a serial CPU fallback pipeline:
 
 #### 1. Hardware Detection Check
-Checking FFI status to confirm parallel hardware pipeline compatibility at runtime:
+Checking interoperability status to confirm parallel hardware pipeline compatibility at runtime:
 ```mojo
 from t2m_runtime import MetalClassifier, is_metal_available
 ...
@@ -66,7 +66,7 @@ Below is the real console output when executed directly on a workstation with ha
 🚀 Run Example: GPU-Accelerated Hardware Analytics
 =========================================================
 
-System GPU: Apple Metal Core FFI available
+System GPU: Apple Metal Core interop available
 Initializing Metal Classifier pipeline on GPU...
 
 Input String to Classify: {"sensor": "accelerometer", "reading": [10.5, 20.3], "valid": true}
@@ -82,6 +82,6 @@ Core Execution Time: 1.48 ms
 📊 Hardware Analytics Summary
 =========================================================
 Classification accuracy match: PASS
-Apple Metal FFI Parallel Dispatch Success
+Apple Metal interop Parallel Dispatch Success
 =========================================================
 ```

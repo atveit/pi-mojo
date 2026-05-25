@@ -1,17 +1,17 @@
 # ⚡ pi-mojo Technical Architecture & Structure
 
-This document details the systems-level design, runtime architectures, FFI boundaries, and code directory structure of `pi-mojo`.
+This document details the systems-level design, runtime architectures, interoperability boundaries, and code directory structure of `pi-mojo`.
 
 ---
 
 ## 🏗️ System Architecture Overview
 
-`pi-mojo` unifies compiled, high-performance systems logic with dynamic agent loop execution. The diagram below illustrates how high-level packages compile down and map to kernel-level operating system boundaries via native C FFI runtimes.
+`pi-mojo` unifies compiled, high-performance systems logic with dynamic agent loop execution. The diagram below illustrates how high-level packages compile down and map to kernel-level operating system boundaries via native C interop runtimes.
 
 ```mermaid
 graph TD
     classDef mojo fill:#fbcfe8,stroke:#db2777,stroke-width:2px,color:#500724;
-    classDef ffi fill:#a5f3fc,stroke:#0891b2,stroke-width:2px,color:#083344;
+    classDef interop fill:#a5f3fc,stroke:#0891b2,stroke-width:2px,color:#083344;
     classDef kernel fill:#ddd,stroke:#555,stroke-width:2px,color:#111;
 
     subgraph Compiled Mojo Layer
@@ -20,11 +20,11 @@ graph TD
         Interpreter["Coding Agent Interpreter (packages/coding-agent/)"]:::mojo
     end
 
-    subgraph Systems FFI Layer (t2m_runtime)
-        HTTP["http.mojo (Python urllib FFI)"]:::ffi
-        FS["fs_pure.mojo (Caching FileSync POSIX FFI)"]:::ffi
-        CP["child_process.mojo (Unix popen FFI)"]:::ffi
-        Utils["utils.mojo (SIMD scanning / Lifetimed StringView)"]:::ffi
+    subgraph Systems interop Layer (t2m_runtime)
+        HTTP["http.mojo (Python urllib interop)"]:::interop
+        FS["fs_pure.mojo (Caching FileSync POSIX system calls)"]:::interop
+        CP["child_process.mojo (Unix popen interop)"]:::interop
+        Utils["utils.mojo (SIMD scanning / Lifetimed StringView)"]:::interop
     end
 
     subgraph OS Kernel Layer
@@ -52,16 +52,16 @@ sequenceDiagram
     actor User as Mojo Developer
     participant Agent as Systems Coding Agent
     participant LLM as LLM Engine (Local/Cloud)
-    participant FFI as child_process (C FFI)
+    participant interop as child_process (C interop)
     participant OS as Operating System Shell
 
     User->>Agent: High-Level Task Description
     Agent->>LLM: Prompt (System prompt + Task)
     LLM-->>Agent: Translated single shell command (e.g. 'ls')
-    Agent->>FFI: execSync('ls')
-    FFI->>OS: popen / fgets FFI execution
-    OS-->>FFI: stdout / stderr byte stream
-    FFI-->>Agent: Returned command output string
+    Agent->>interop: execSync('ls')
+    interop->>OS: popen / fgets interop execution
+    OS-->>interop: stdout / stderr byte stream
+    interop-->>Agent: Returned command output string
     Agent->>User: Displays finalized execution output
 ```
 
@@ -71,7 +71,7 @@ sequenceDiagram
 
 ### 1. Systems-Level Runtime
 This port implements systems-level integrations in `t2m_runtime` to support core operations without dynamic language wrappers where possible:
-* **Kernel-Level File I/O**: Interacts with the filesystem via macOS/Unix C FFI calls (`access`, `mkdir`, `rmdir`, `unlink`, `opendir`, `closedir` loaded from `libSystem.B.dylib`) and native `open()` channels.
+* **Kernel-Level File I/O**: Interacts with the filesystem via macOS/Unix C interop calls (`access`, `mkdir`, `rmdir`, `unlink`, `opendir`, `closedir` loaded from `libSystem.B.dylib`) and native `open()` channels.
 * **Subprocess Spawning**: Executes command-line processes via C `popen`, `fgets`, and `pclose` system boundaries.
 
 ### 2. Concurrency Translation
@@ -94,7 +94,7 @@ The framework codebase is structured as a native Mojo package system located und
 ├── src/                       # Centralized source directory
 │   ├── t2m_runtime/           # Systems support library
 │   │   ├── fs.mojo            # Pure native filesystem routines
-│   │   ├── child_process.mojo # Native C FFI subprocess execution via popen
+│   │   ├── child_process.mojo # Native C interop subprocess execution via popen
 │   │   ├── utils.mojo         # Promise models and type utilities
 │   │   ├── path.mojo          # Path arithmetic and resolution
 │   │   ├── http.mojo          # Native fetch and request handlers

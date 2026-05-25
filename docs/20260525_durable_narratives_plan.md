@@ -2,13 +2,13 @@
 
 This document provides a detailed technical design, architectural plan, and implementation roadmap for:
 1. **Narrative-Driven Refactoring (Examples 1–10)**: Embedding cohesive systems-level stories into the existing progressive examples.
-2. **Durable State Checkpointing (`src/packages/durable/`)**: A persistent session-recovery engine using FFI-based JSON serialization.
+2. **Durable State Checkpointing (`src/packages/durable/`)**: A persistent session-recovery engine using interop-based JSON serialization.
 
 ---
 
 ## 📖 Part 1: Narrative-Driven Refactoring (Examples 1–10)
 
-Currently, the examples demonstrate framework capabilities without a unifying theme. To make `pi-mojo` an illustrative reference for compiled systems AI, each example is refactored around a concrete **systems-engineering narrative** (a story). This highlights why compiled performance and low-level FFI are required.
+Currently, the examples demonstrate framework capabilities without a unifying theme. To make `pi-mojo` an illustrative reference for compiled systems AI, each example is refactored around a concrete **systems-engineering narrative** (a story). This highlights why compiled performance and low-level interop are required.
 
 ### Detailed Narrative Specifications
 
@@ -93,7 +93,7 @@ sequenceDiagram
     autonumber
     actor User as Mojo Developer
     participant Agent as Durable Agent Loop
-    participant Store as CheckpointStore (Python FFI)
+    participant Store as CheckpointStore (Python interop)
     participant Disk as .pi_checkpoints/ (JSON)
 
     User->>Agent: Start Session (session_100)
@@ -109,7 +109,7 @@ sequenceDiagram
 
 ### Component Design
 
-To avoid Mojo native String indexing or buffer allocation issues under FFI casting, the durable checkpointing engine will utilize **Python's `json` module entirely via FFI** for serialization, parsing, and file writes.
+To avoid Mojo native String indexing or buffer allocation issues under interoperability casting, the durable checkpointing engine will utilize **Python's `json` module entirely via interop** for serialization, parsing, and file writes.
 
 #### 1. `[pi_checkpoint_store.mojo](file:///Users/amund/pi-mojo/src/packages/durable/pi_checkpoint_store.mojo)` [NEW]
 * **Purpose**: Manages serialized state snapshots on disk under `.pi_checkpoints/`.
@@ -141,7 +141,7 @@ To avoid Mojo native String indexing or buffer allocation issues under FFI casti
   * Exposes `run_durable_task(self, session_id: String, goal: String, max_steps: Int) raises`.
   * Checks if `exists_checkpoint` is true. If so, it loads the history and rehydrates `current_state` (messages, step count).
   * Executes standard LLM query turns.
-  * At the end of every successful execution iteration, it invokes `save_checkpoint` to commit state changes before spawning the next FFI process.
+  * At the end of every successful execution iteration, it invokes `save_checkpoint` to commit state changes before spawning the next interop process.
 
 ---
 

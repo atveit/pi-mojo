@@ -10,7 +10,7 @@ Production backend servers process high-volume systems logs (syslogs) every seco
 
 The agent represents an active syslog listener daemon that:
 1. Feeds a high-frequency stream of simulated syslog strings.
-2. Natively scans each incoming log line using FFI string matching.
+2. Natively scans each incoming log line using interop string matching.
 3. Classifies severities and outputs immediate color-coded console indicators matching severe threat structures:
    * 🔴 `[CRITICAL SECURITY]` for unauthorized intrusion traces or known vulnerability signatures.
    * 🟡 `[WARNING ALERT]` for password failed logs.

@@ -9,7 +9,7 @@ This storyboard scenario complements **[Example 1: Progressive AI Completions](.
 A newly hired software engineer logins to a development server for the first time. To verify that their shell, paths, and environment match the team standard, the engineer triggers this autonomous onboarding assistant. 
 
 The agent's goals are:
-1. Conduct an environment inspection by looking up environment keys (`PATH`, `SHELL`, `LANG`) natively via FFI subprocesses.
+1. Conduct an environment inspection by looking up environment keys (`PATH`, `SHELL`, `LANG`) natively via interop subprocesses.
 2. Intercept the returned diagnostic states and compile a structured, developer-focused system onboarding diagnostics summary.
 3. Commit the final diagnostics report safely to a local `onboarding_diagnostics.txt` file and verify its contents.
 4. Conclude operations cleanly, cleaning up temporary setup files on completion.

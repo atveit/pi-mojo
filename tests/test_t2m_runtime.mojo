@@ -32,9 +32,9 @@ def test_string_view() raises:
     assert_equal(subview.to_string(), String("ell"))
 
 def test_fs() raises:
-    utils.console_log("Testing POSIX File Sync FFI...")
+    utils.console_log("Testing POSIX File Sync interop...")
     var filename = String("temp_unit_test.txt")
-    var content = String("Mojo POSIX FFI compiled unit testing works!")
+    var content = String("Mojo POSIX system calls compiled unit testing works!")
     
     # Write file
     fs.writeFileSync(filename, content)
@@ -53,7 +53,7 @@ def test_clean_command() raises:
     assert_equal(llm.clean_command("  pwd  "), String("pwd"))
 
 def test_date_and_timer() raises:
-    utils.console_log("Testing Date & Timer FFI utilities...")
+    utils.console_log("Testing Date & Timer interop utilities...")
     var now_ms = date.Date.now()
     assert_true(now_ms > 0, "date.Date.now() should return a valid positive timestamp")
     

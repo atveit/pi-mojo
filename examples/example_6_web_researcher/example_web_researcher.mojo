@@ -70,7 +70,7 @@ def main() raises:
         var mock_report = (
             "# Research Report: Mojo Parallel Programming Features\n\n"
             "## 1. Modular High-Performance Foundations\n"
-            "Mojo provides progressive types, native value semantics, and seamless C/Python FFI. It allows developers to optimize hot paths without rewrite overhead.\n\n"
+            "Mojo provides progressive types, native value semantics, and seamless C/Python interop. It allows developers to optimize hot paths without rewrite overhead.\n\n"
             "## 2. Low-Level Parallel Mechanics\n"
             "- **Multi-Threading**: Native compiler integration coordinates tasks across CPU cores.\n"
             "- **Vectorization**: Uses target hardware vector instruction registers directly.\n"

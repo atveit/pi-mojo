@@ -1,10 +1,10 @@
 # Codebase Semantic Auditor & Refactoring Assistant Agent (example_codebase_auditor.mojo)
 
-This example implements a Codebase Semantic Auditor & Refactoring Assistant Agent. It crawls a local target folder using FFI filesystem operations, reads the code contents, extracts zero-copy `StringView` slices around unsafe areas (raw pointer bindings or FFI handles), and feeds them to Gemini 3.5 Flash to synthesize refactoring proposals, structured code diffs, and security audit reports.
+This example implements a Codebase Semantic Auditor & Refactoring Assistant Agent. It crawls a local target folder using interop filesystem operations, reads the code contents, extracts zero-copy `StringView` slices around unsafe areas (raw pointer bindings or interop handles), and feeds them to Gemini 3.5 Flash to synthesize refactoring proposals, structured code diffs, and security audit reports.
 
 ### ⚙️ How it Works
-1. **FFI Code Crawling**: Lists all files inside a directory structure using `fs.readdirSync` (dynamic OS FFI list dir bindings).
-2. **Natives File Reading**: Opens and extracts file payloads using FFI-backed `fs.readFileSync` POSIX system handlers.
+1. **interop Code Crawling**: Lists all files inside a directory structure using `fs.readdirSync` (dynamic OS interop list dir bindings).
+2. **Natives File Reading**: Opens and extracts file payloads using interop-backed `fs.readFileSync` POSIX system handlers.
 3. **Generic Zero-Copy Slicing**: Rather than copying giant memory segments or allocating heavy string buffers, the agent uses Mojo's generic `StringView` lifetimes slicing to capture exact code fragments containing `unsafe_ptr` or dynamic bindings.
 4. **Refactoring Proposal Synthesis**: Consolidates the captured slices and uses `gemini-3.5-flash` to generate security audits and structured markdown refactoring diffs.
 
@@ -16,7 +16,7 @@ This example implements a Codebase Semantic Auditor & Refactoring Assistant Agen
 
 This example showcases Mojo's system-level strength in zero-copy memory management and directory crawling:
 
-#### 1. FFI Directory Crawling
+#### 1. interop Directory Crawling
 The agent crawls the source directory structure dynamically:
 ```mojo
 var files_py = fs.readdirSync(dir_to_audit)
@@ -51,9 +51,9 @@ Below is the real console output when running without cloud credentials (Simulat
 =========================================================
 
 Target Crawl Directory: src/t2m_runtime
-Auditing Objective: Identify raw pointer FFI bindings and suggest safety wrappers
+Auditing Objective: Identify raw pointer interop bindings and suggest safety wrappers
 
-Crawling directory structures using readdirSync FFI...
+Crawling directory structures using readdirSync interop...
 Found 11 Mojo source files to audit:
   - Crawled file: src/t2m_runtime/__init__.mojo
   - Crawled file: src/t2m_runtime/child_process.mojo
@@ -67,7 +67,7 @@ Found 11 Mojo source files to audit:
   - Crawled file: src/t2m_runtime/timer.mojo
   - Crawled file: src/t2m_runtime/utils.mojo
 
-Extracting zero-copy StringView slices of unsafe FFI areas...
+Extracting zero-copy StringView slices of unsafe interop areas...
   [Slice Match in src/t2m_runtime/child_process.mojo]:
     "   var cmd_null = command + "\0"     var cmd_bytes = cmd_null.as_bytes()     var mode = String("r\0")     var mode_bytes = mode.as_bytes()"
   [Slice Match in src/t2m_runtime/child_process.mojo]:
@@ -86,7 +86,7 @@ Synthesizing refactoring proposals using simulated model...
 --- Synthesis Complete: Structured Markdown Report ---
 # Refactoring Proposal & Semantic Audit Report
 
-## 1. Unsafe FFI DDLHandle Detections
+## 1. Unsafe interop DDLHandle Detections
 We identified several direct pointer references (`unsafe_ptr()`) and dynamic library loadings (`OwnedDLHandle`) in `child_process.mojo`.
 
 ## 2. Recommended Safety Upgrades
@@ -97,6 +97,6 @@ We identified several direct pointer references (`unsafe_ptr()`) and dynamic lib
 + var fp = popen(safe_cmd.get(), Int(mode_bytes.unsafe_ptr()))
 ```
 ## 3. Threat Assessment & Safety Level
-**Threat Level**: Low. FFI boundaries are isolated inside the modular `t2m_runtime` system library wrapper.
+**Threat Level**: Low. interoperability boundaries are isolated inside the modular `t2m_runtime` system library wrapper.
 =========================================================
 ```

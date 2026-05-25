@@ -6,7 +6,7 @@ def main() raises:
     print("=========================================================")
     
     if not is_metal_available():
-        print("Apple Metal GPU is not available or FFI libraries are missing. Skipping.")
+        print("Apple Metal GPU is not available or interoperability libraries are missing. Skipping.")
         return
         
     print("Metal GPU: Available")

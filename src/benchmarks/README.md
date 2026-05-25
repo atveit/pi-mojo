@@ -16,7 +16,7 @@ The following tables show average timings across 5 iterations measured dynamical
 | **Node.js (Interpreted / JITless)** | 96.77 | 145.46 | Run with `--jitless`. Skips V8 JIT. Fast since filesystem ops delegate to native C++ bindings (libuv). |
 | **Node.js (JIT-Compiled)** | 96.09 | 141.13 | Standard JIT execution. Core file speeds are identical to interpreted. |
 | **Mojo (JIT-Compiled / `mojo run`)** | **97.35** | 467.23 | Code is compiled on the fly. Core execution is extremely fast, but process startup suffers high JIT compilation latency. |
-| **Mojo (Pure-Native / compiled)** | **95.67** | **202.11** | Compiled native binary (`mojo build`). Bypasses compiler JIT, using cached thin POSIX FFI system calls to **beat Node.js JIT core speed** by eliminating standard library buffered wrapper overheads. |
+| **Mojo (Pure-Native / compiled)** | **95.67** | **202.11** | Compiled native binary (`mojo build`). Bypasses compiler JIT, using cached thin POSIX system calls system calls to **beat Node.js JIT core speed** by eliminating standard library buffered wrapper overheads. |
 
 ---
 
@@ -51,7 +51,7 @@ The following tables show average timings across 5 iterations measured dynamical
 * **Pure Mojo vs. Python loading**: By separating core filesystem operations into a pure Mojo module ([fs_pure.mojo](file:///Users/amund/pi-mojo/src/t2m_runtime/fs_pure.mojo)), the binary avoids importing `std.python` or referencing `PythonObject`. This completely skips loading the heavy dynamic Python interpreter library (`libpython`) at runtime startup.
 
 ### 2. Filesystem I/O and System Call Boundaries
-* **Native C++ / C FFI**: Both Node.js and Mojo achieve sub-millisecond execution times (~0.09 ms to 0.10 ms per write-read-delete cycle). 
+* **Native C++ / C interop**: Both Node.js and Mojo achieve sub-millisecond execution times (~0.09 ms to 0.10 ms per write-read-delete cycle). 
 * **JITless vs. JIT Node.js**: Disabling JIT compilation inside Node.js (`--jitless`) has no measurable impact on file operations because filesystem calls are immediately delegated to V8's native C++ runtime (libuv). The bottleneck is the macOS kernel system call boundary (performing 3,000 filesystem system calls), not JavaScript bytecode execution.
 * **Pure Native Mojo**: Mojo's standard library file system operations (`std.os` and `std.os.path`) perform at the exact same native speed, matching the highly optimized Node.js C++ core implementation.
 

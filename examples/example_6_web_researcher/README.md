@@ -1,10 +1,10 @@
 # Concurrent Multi-URL Web Research Agent (example_web_researcher.mojo)
 
-This example implements a Concurrent Multi-URL Web Research Agent that dynamically planning references, downloads multiple target URLs concurrently using parallel FFI threadpool workers, cleans the raw HTML payloads, and synthesizes a structured markdown summary report.
+This example implements a Concurrent Multi-URL Web Research Agent that dynamically planning references, downloads multiple target URLs concurrently using parallel background threadpool workers, cleans the raw HTML payloads, and synthesizes a structured markdown summary report.
 
 ### ⚙️ How it Works
 1. **Model Upgrades**: The agent defaults to `gemini-3.5-flash` natively or OpenRouter's `google/gemini-3.5-flash` endpoint, offering low-latency structured output.
-2. **Parallel FFI Workers**: Spawns multiple concurrent worker threads using Python's `concurrent.futures.ThreadPoolExecutor` via standard Mojo FFI, fetching multiple URLs in parallel without blocking.
+2. **Parallel interop Workers**: Spawns multiple concurrent worker threads using Python's `concurrent.futures.ThreadPoolExecutor` via standard Mojo interop, fetching multiple URLs in parallel without blocking.
 3. **HTML Sanitization**: Cleans and strips styling tags, headers, script definitions, and metadata using high-performance regex cleanups inside the parallel fetches.
 4. **Context Consolidation**: Aggregates all cleaned website texts and feeds them to Gemini 3.5 Flash to synthesize a polished, structured markdown research report.
 
@@ -14,10 +14,10 @@ This example implements a Concurrent Multi-URL Web Research Agent that dynamical
 
 ### 🔍 Code Explanation & Key Snippets
 
-This example showcases how to execute parallel/concurrent FFI operations inside a Mojo agent context:
+This example showcases how to execute parallel/concurrent interoperability operations inside a Mojo agent context:
 
 #### 1. Constructing the Parallel Fetcher
-We define a Python module function in memory and compile/execute it using Python FFI to orchestrate safe parallel socket connections:
+We define a Python module function in memory and compile/execute it using Python interop to orchestrate safe parallel socket connections:
 ```mojo
 def get_parallel_fetcher() raises -> PythonObject:
     var py_code = (
@@ -84,7 +84,7 @@ Synthesizing report using simulated model...
 # Research Report: Mojo Parallel Programming Features
 
 ## 1. Modular High-Performance Foundations
-Mojo provides progressive types, native value semantics, and seamless C/Python FFI. It allows developers to optimize hot paths without rewrite overhead.
+Mojo provides progressive types, native value semantics, and seamless C/Python interop. It allows developers to optimize hot paths without rewrite overhead.
 
 ## 2. Low-Level Parallel Mechanics
 - **Multi-Threading**: Native compiler integration coordinates tasks across CPU cores.

@@ -43,7 +43,7 @@ def main() raises:
             
         var cmd = llm.clean_command(raw_cmd)
         utils.console_log("Cloud LLM generated command:", cmd)
-        utils.console_log("Executing command natively via C FFI...")
+        utils.console_log("Executing command natively via C interop...")
         var out = execSync(cmd)
         utils.console_log("Result:")
         utils.console_log(out.strip())

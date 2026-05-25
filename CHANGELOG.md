@@ -14,7 +14,7 @@ No Model Context Protocol (MCP) integrations are included in this release, prese
 
 #### 1. Pillar 1: Modular Higher-Level Capabilities & Showcases
 * **Durable State Checkpointing (`src/packages/durable/`)**:
-  * Implemented [pi_checkpoint_store.mojo](src/packages/durable/pi_checkpoint_store.mojo) and [pi_durable_agent.mojo](src/packages/durable/pi_durable_agent.mojo) using Python `json` FFI boundaries to serialize full execution state machine history, goals, and step indexes under `.pi_checkpoints/`.
+  * Implemented [pi_checkpoint_store.mojo](src/packages/durable/pi_checkpoint_store.mojo) and [pi_durable_agent.mojo](src/packages/durable/pi_durable_agent.mojo) using Python `json` interoperability boundaries to serialize full execution state machine history, goals, and step indexes under `.pi_checkpoints/`.
   * Added [Example 12 Showcase](examples/example_12_durable_agent/) to demonstrate rehydration and recovery loops under simulated crash terminations.
 * **Autonomous Playbook Learning (`src/packages/playbook/`)**:
   * Implemented [pi_playbook_store.mojo](src/packages/playbook/pi_playbook_store.mojo) and [pi_playbook_agent.mojo](src/packages/playbook/pi_playbook_agent.mojo) enabling agents to align tasks against structured Markdown/YAML recipes stored under `.pi_playbooks/` and synthesize new ones on success.
@@ -24,7 +24,7 @@ No Model Context Protocol (MCP) integrations are included in this release, prese
 Created a brand new top-level **[Scenarios Hub](scenarios/)** with ten dedicated, self-contained storyboard environments that complement (but do not overwrite) the core progressive examples:
 * **[Scenario 1: Onboarding Assistant](scenarios/scenario_1_onboarding_assistant/)**: Environment path auditing and shell profile generating.
 * **[Scenario 2: Git Sanitizer](scenarios/scenario_2_git_sanitizer/)**: Purges uncommitted temporary build logs and lockfiles from working tree index.
-* **[Scenario 3: Thermal Monitor](scenarios/scenario_3_thermal_stress/)**: Dynamic systems thermodynomics modeling utilizing compiled Mojo FFI tools.
+* **[Scenario 3: Thermal Monitor](scenarios/scenario_3_thermal_stress/)**: Dynamic systems thermodynomics modeling utilizing compiled Mojo interop tools.
 * **[Scenario 4: Log Auditor](scenarios/scenario_4_log_stream_auditor/)**: Streams syslog events, highlighting and flagging active security violations.
 * **[Scenario 5: GPU Benchmarker](scenarios/scenario_5_gpu_load_benchmarker/)**: Benchmarks CPU serial versus parallel GPU latency throughputs.
 * **[Scenario 6: Intel Aggregator](scenarios/scenario_6_intel_aggregator/)**: Concurrently crawls competitor documentation updates to discover API breakages.

@@ -1,6 +1,6 @@
 # Systems Coding Agent Example (example_coding_agent.mojo)
 
-This example implements a Systems Coding Agent that translates high-level task descriptions into executable shell commands and runs them natively via C FFI process utilities. It uses a live cloud connection (routing dynamically to Google Gemini API or OpenRouter) based on keys loaded from your `.env` file.
+This example implements a Systems Coding Agent that translates high-level task descriptions into executable shell commands and runs them natively via C interop process utilities. It uses a live cloud connection (routing dynamically to Google Gemini API or OpenRouter) based on keys loaded from your `.env` file.
 
 ### 📄 Source Code & Captured Run
 - **Source Code**: [example_coding_agent.mojo](example_coding_agent.mojo)
@@ -8,9 +8,9 @@ This example implements a Systems Coding Agent that translates high-level task d
 
 ### 🔍 Code Explanation & Key Snippets
 
-This script leverages low-level subprocess compilation alongside the FFI helper modules:
+This script leverages low-level subprocess compilation alongside the interop helper modules:
 
-#### 1. Native FFI Command Execution
+#### 1. Native interop Command Execution
 Spawning system shell processes natively from Mojo using compiled C library bindings via `t2m_runtime.child_process.execSync`:
 ```mojo
 from t2m_runtime.child_process import execSync
@@ -26,7 +26,7 @@ var system_prompt = "You are a terminal coding agent. Return ONLY a single shell
 ```
 
 #### 3. Python Stdin Interactivity
-Scanning user keystrokes dynamically in an interactive execution loop via Python's standard input FFI:
+Scanning user keystrokes dynamically in an interactive execution loop via Python's standard input integration:
 ```mojo
 var builtins = Python.import_module("builtins")
 var user_task = String(builtins.input("\nEnter a task for the agent (or Enter to exit): "))
@@ -51,7 +51,7 @@ Agent Task: Find out how many files are in the current workspace folder.
 --- Cloud LLM Coding Agent (OpenRouter/Gemini) ---
 Asking Gemini API (gemini-3.5-flash) to decide command...
 Cloud LLM generated command: find . -maxdepth 1 -type f | wc -l
-Executing command natively via C FFI...
+Executing command natively via C interop...
 Result:
 8
 
