@@ -55,7 +55,7 @@ Each example is designed progressively or specializes in a core platform capabil
 *   **Source Code**: [example_event_stream.mojo](example_4_event_stream/example_event_stream.mojo)
 *   **Walkthrough**: [example_4_event_stream/README.md](example_4_event_stream/README.md)
 *   **Sample Run**: [example_event_stream_run.txt](example_4_event_stream/example_event_stream_run.txt)
-*   **Core Capability**: Streamed token consumption from Gemini's live Server-Sent Events (SSE) chat stream using Python socket libraries and flushed stdout token prints.
+*   **Core Capability**: Streamed token consumption from Gemini's live event chat stream using Python socket libraries and flushed stdout token prints.
 *   **How to Run**:
     ```bash
     mojo run -I src examples/example_4_event_stream/example_event_stream.mojo

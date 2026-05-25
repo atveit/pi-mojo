@@ -35,7 +35,7 @@ mojo -I src examples/example_3_tool_calling/example_tool_calling.mojo
 ```
 
 #### 🌊 [Example 4: Real-Time AI Event Streaming](examples/example_4_event_stream/) ([Sample Run](examples/example_4_event_stream/example_event_stream_run.txt))
-A cloud-only completions stream demonstrating real-time SSE token parsing and flushed printing.
+A cloud-only completions stream demonstrating real-time streaming token parsing and flushed printing.
 ```bash
 mojo -I src examples/example_4_event_stream/example_event_stream.mojo
 ```

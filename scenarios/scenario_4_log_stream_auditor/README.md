@@ -1,6 +1,6 @@
 # Scenario 4: The Continuous Log Auditor Stream
 
-This storyboard scenario complements **[Example 4: Real-Time AI Event Streaming](../../examples/example_4_event_stream)**. While Example 4 demonstrates basic cloud-only SSE token streaming from Gemini, this scenario embeds log auditing into a real-time system monitoring stream.
+This storyboard scenario complements **[Example 4: Real-Time AI Event Streaming](../../examples/example_4_event_stream)**. While Example 4 demonstrates basic cloud-only event token streaming from Gemini, this scenario embeds log auditing into a real-time system monitoring stream.
 
 ---
 
