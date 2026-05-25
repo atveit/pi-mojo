@@ -15,6 +15,25 @@ These instructions strike a balance between rigorous technical compliance and de
 
 ---
 
+## 📦 Environment & Dependency Management (Pixi)
+
+This project uses the **Pixi** package manager to encapsulate compiler versions, Python dependencies, and task automation.
+
+### 1. Initializing & Updating Environment
+If dependencies in `pixi.toml` are modified, Pixi automatically synchronizes the local virtual environment under `.pixi/`:
+```bash
+pixi install
+```
+
+### 2. Task Runner reference
+Pixi defines automated tasks inside `pixi.toml` for rapid local workflows. Execute these natively using `pixi run`:
+* **Run Tests**: `pixi run test` (compiles and executes all unit tests)
+* **Run Benchmark**: `pixi run benchmark` (compares POSIX system call latencies against Node.js benchmarks)
+* **Run Basic Completions**: `pixi run example-ai` (executes basic progressive AI Completions)
+* **Run Systems Coder**: `pixi run example-coding` (executes systems coding agent)
+
+---
+
 ## 🚀 Key Shell Commands
 
 ### 1. Compiling & Running Scripts
@@ -24,10 +43,16 @@ mojo -I src examples/example_1_basic_ai/example_basic_ai.mojo
 mojo -I src scenarios/scenario_1_onboarding_assistant/scenario_onboarding_assistant.mojo
 ```
 
-### 2. Executing Unit Tests
+### 2. Executing Unit Tests (Raw)
 Before committing, always run the full unit test suite to verify that packages and systems interop compile cleanly:
 ```bash
-mojo -I src tests/test_t2m_runtime.mojo && mojo -I src tests/test_packages.mojo
+mojo run -I src tests/test_t2m_runtime.mojo && mojo run -I src tests/test_packages.mojo
+```
+
+### 3. Compiling Standalone Standalone Binaries
+To build a zero-overhead, highly optimized standalone native binary that eliminates compiler JIT startup overhead:
+```bash
+mojo build -O3 -I src examples/example_2_coding_agent/example_coding_agent.mojo -o build/coding_agent
 ```
 
 ---
@@ -43,14 +68,19 @@ Mojo leverages low-overhead Python interoperability for standard collections, st
       var json = Python.import_module("json")
       # ...
   ```
-* **Avoid String Truncation**: Perform complex string manipulations or file naming inside Python's context using FFI, then map them back to Mojo in a single operation.
+* **Avoid String Truncation**: Perform complex string manipulations or file naming inside Python's context, then map them back to Mojo in a single operation to avoid FFI buffer casting issues.
 
-### 2. Surgical Modifications & Surgical Cleanup
+### 2. Mojo Strict Type & Exception Constraints
+* **Explicit Exception Handling**: In Mojo, functions marked with `raises` must always be called inside `try-except` blocks, or the caller function itself must be marked with `raises`.
+* **Standard Library Imports**: Keep `from std.ffi import OwnedDLHandle` intact. Do not rename standard library imports (e.g. `std.ffi`) to `interop` or other simplified aliases, as these represent compiler-level core libraries.
+* **Vectorization & SIMD**: Parallel vector structures (such as `SIMD[DType.uint8, 16]`) must be preserved natively in computational kernels to retain Apple Silicon hardware acceleration.
+
+### 3. Surgical Modifications & Surgical Cleanup
 * **Touch Only What is Requested**: Focus changes exclusively on the target feature. Do not rewrite, reformat, or "improve" adjacent files, comments, or styling unless explicitly requested.
 * **Match Existing Style**: Follow the naming conventions, indentation, and structure of surrounding code blocks.
 * **Pristine Compilation**: Ensure code compiles with **zero warnings** and zero errors.
 
-### 3. Progressive Examples vs. Storyboard Scenarios
+### 4. Progressive Examples vs. Storyboard Scenarios
 * **Do Not Overwrite Baseline Examples**: Keep progressive capability Examples 1–10 untouched, as they represent the baseline learning curve.
 * **Add Scenario-Driven Storyboards**: For real-world systems operations, add them to `scenarios/` as complementary examples (e.g. `scenarios/scenario_X_name/`).
 * Each new scenario folder must contain:
