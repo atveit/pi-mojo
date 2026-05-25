@@ -19,9 +19,11 @@ No Model Context Protocol (MCP) integrations are included in this release, prese
 * **Autonomous Playbook Learning (`src/packages/playbook/`)**:
   * Implemented [pi_playbook_store.mojo](src/packages/playbook/pi_playbook_store.mojo) and [pi_playbook_agent.mojo](src/packages/playbook/pi_playbook_agent.mojo) enabling agents to align tasks against structured Markdown/YAML recipes stored under `.pi_playbooks/` and synthesize new ones on success.
   * Added [Example 11 Showcase](examples/example_11_playbook_agent/) to demonstrate learning alignments.
+* **Karpathy Autoresearch Loop (`examples/example_13_autoresearch/`)**:
+  * Implemented a basic Karpathy autoresearch loop showcase (`Propose -> Compile/Run -> Evaluate Metric -> Keep/Discard`) to dynamically tune compute math kernels.
 
 #### 2. Pillar 2: Complementary Systems Storyboards (`scenarios/`)
-Created a brand new top-level **[Scenarios Hub](scenarios/)** with ten dedicated, self-contained storyboard environments that complement (but do not overwrite) the core progressive examples:
+Created a brand new top-level **[Scenarios Hub](scenarios/)** with twelve dedicated, self-contained storyboard environments that complement (but do not overwrite) the core progressive examples:
 * **[Scenario 1: Onboarding Assistant](scenarios/scenario_1_onboarding_assistant/)**: Environment path auditing and shell profile generating.
 * **[Scenario 2: Git Sanitizer](scenarios/scenario_2_git_sanitizer/)**: Purges uncommitted temporary build logs and lockfiles from working tree index.
 * **[Scenario 3: Thermal Monitor](scenarios/scenario_3_thermal_stress/)**: Dynamic systems thermodynomics modeling utilizing compiled Mojo interop tools.
@@ -32,6 +34,8 @@ Created a brand new top-level **[Scenarios Hub](scenarios/)** with ten dedicated
 * **[Scenario 8: Migration Assistant](scenarios/scenario_8_migration_assistant/)**: Intercepts compiler warning logs and auto-patches deprecated methods.
 * **[Scenario 9: Recovery Monitor](scenarios/scenario_9_db_recovery_monitor/)**: Probes connection pings and restarts services upon timeout threshold bounds.
 * **[Scenario 10: CI Self-Healer Daemon](scenarios/scenario_10_ci_self_healer/)**: Daemon loop ticking that auto-heals integration build syntax errors.
+* **[Scenario 11: Deep Research Agent](scenarios/scenario_11_deep_researcher/)**: Iterative multi-turn web search and context scraping agent supporting multiple search APIs (Tavily, Exa, Brave, Google, Bing).
+* **[Scenario 12: FlashInfer GPU Competition Optimizer](scenarios/scenario_12_gpu_kernel_optimizer/)**: Implements a closed-loop GPU tuning cycle targeting Fused FP8 MoE routing kernels for the MLSys 2026 contest, exporting SOTA benchmark trace logs.
 
 ---
 

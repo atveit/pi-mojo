@@ -119,6 +119,9 @@ Instead of basic progressive API capability showcases, these scenarios are built
 * **[Scenario 8: Migration Assistant](scenarios/scenario_8_migration_assistant/)** - Compilation diagnostic corrections.
 * **[Scenario 9: Recovery Monitor](scenarios/scenario_9_db_recovery_monitor/)** - Service checks and failover playbooks.
 * **[Scenario 10: CI Self-Healer Daemon](scenarios/scenario_10_ci_self_healer/)** - Autonomous background daemon.
+* **[Scenario 11: Deep Research Agent](scenarios/scenario_11_deep_researcher/)** - Multi-turn information gathering using multiple search APIs (Tavily, Exa, Brave, Google, Bing).
+* **[Scenario 12: FlashInfer GPU Competition Optimizer](scenarios/scenario_12_gpu_kernel_optimizer/)** - Closed-loop GPU kernel tuning cycle targeting FP8 MoE routing kernels for the MLSys 2026 contest.
+
 
 For details on running these operations storyboards, see the [Scenarios Hub README](scenarios/README.md).
 

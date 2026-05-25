@@ -126,12 +126,15 @@ The framework codebase is structured as a native Mojo package system located und
 │   ├── example_1_basic_ai/    # Progressive completions and chat
 │   ├── ...
 │   ├── example_11_playbook_agent/ # Example 11: Playbook learning agent
-│   └── example_12_durable_agent/  # Example 12: Crash-resilient durable agent loop
+│   ├── example_12_durable_agent/  # Example 12: Crash-resilient durable agent loop
+│   └── example_13_autoresearch/   # Example 13: Basic Karpathy autoresearch loop
 ├── scenarios/                 # Complementary Real-World Systems Scenarios
 │   ├── README.md              # Scenario hub index
 │   ├── scenario_1_onboarding_assistant/  # Scenario 1: Developer onboarding
 │   ├── ...
-│   └── scenario_10_ci_self_healer/       # Scenario 10: CI self-healing daemon
+│   ├── scenario_10_ci_self_healer/       # Scenario 10: CI self-healing daemon
+│   ├── scenario_11_deep_researcher/     # Scenario 11: Iterative deep research agent
+│   └── scenario_12_gpu_kernel_optimizer/ # Scenario 12: FlashInfer GPU optimizer
 └── README.md                  # Project documentation
 
 ```
