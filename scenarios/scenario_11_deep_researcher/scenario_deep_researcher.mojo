@@ -1,6 +1,7 @@
 import t2m_runtime.utils as utils
 import t2m_runtime.llm as llm
 from std.python import Python, PythonObject
+import std.sys
 
 import search_providers
 import content_fetcher
@@ -22,14 +23,18 @@ def write_checkpoint(turn: Int, topic: String, last_query: String, accumulated_c
 
 def main() raises:
     var builtins = Python.import_module("builtins")
-    # Check for CLI arguments (like --benchmark)
-    var sys = Python.import_module("sys")
-    var args = sys.argv
+    # Check for CLI arguments (like --benchmark) using native Mojo sys
+    var args = std.sys.argv()
+    var args_len = len(args)
     var is_benchmark = False
-    var args_len = Int(py=builtins.len(args))
+    var topic = String("Mojo programming language memory management vs Rust ownership model")
     for i in range(args_len):
-        if String(py=args[i]) == "--benchmark":
+        if args[i] == "--benchmark":
             is_benchmark = True
+        elif args[i] == "--prompt" and i + 1 < args_len:
+            topic = args[i+1]
+        elif args[i] == "--topic" and i + 1 < args_len:
+            topic = args[i+1]
 
     utils.console_log("=========================================================")
     utils.console_log("🤖 Scenario 11: Modular Iterative Deep Research Agent")
@@ -51,7 +56,6 @@ def main() raises:
         utils.console_log("  - Dataset 1: BrowseComp-Plus (Web Browsing and long-horizon retrieval)")
         utils.console_log("  - Dataset 2: DeepResearch-Bench (Holistic report synthesis and citation audit)\n")
 
-    var topic = "Mojo programming language memory management vs Rust ownership model"
     utils.console_log("Deep Research Topic:", topic)
     utils.console_log("")
 

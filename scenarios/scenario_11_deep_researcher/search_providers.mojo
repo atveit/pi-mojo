@@ -95,6 +95,38 @@ struct SearchManager:
         self.google_key = String(py=os.environ.get("GOOGLE_SEARCH_API_KEY", ""))
         self.google_cx = String(py=os.environ.get("GOOGLE_CSE_ID", ""))
         self.tavily_key = String(py=os.environ.get("TAVILY_API_KEY", ""))
+
+        # Fallback to load from .env manually if keys not set in environment
+        try:
+            var builtins = Python.import_module("builtins")
+            var f = builtins.open(".env", "r", encoding="utf-8")
+            var content = String(py=f.read())
+            _ = f.close()
+            var lines = content.split("\n")
+            for i in range(len(lines)):
+                var line = lines[i].strip()
+                var clean_line = String(line)
+                if clean_line.startswith("export "):
+                    clean_line = String(clean_line.replace("export ", "").strip())
+                if clean_line.find("=") != -1 and not clean_line.startswith("#"):
+                    var parts = clean_line.split("=", 1)
+                    var k = parts[0].strip()
+                    var v = String(parts[1].strip().strip('"').strip("'"))
+                    if k == "BING_SEARCH_API_KEY" and not self.bing_key:
+                        self.bing_key = v
+                    elif k == "BRAVE_API_KEY" and not self.brave_key:
+                        self.brave_key = v
+                    elif k == "EXA_API_KEY" and not self.exa_key:
+                        self.exa_key = v
+                    elif k == "GOOGLE_SEARCH_API_KEY" and not self.google_key:
+                        self.google_key = v
+                    elif k == "GOOGLE_CSE_ID" and not self.google_cx:
+                        self.google_cx = v
+                    elif k == "TAVILY_API_KEY" and not self.tavily_key:
+                        self.tavily_key = v
+        except:
+            pass
+
         self.is_active = (
             self.bing_key != "" or
             self.brave_key != "" or

@@ -10,7 +10,7 @@ def call_gemini_long(api_key: String, prompt: String) raises -> String:
     var data = json.dumps(payload).encode("utf-8")
     var req = urllib.Request(url, data=data, headers={"Content-Type": "application/json"})
     try:
-        var response = urllib.urlopen(req, timeout=45)
+        var response = urllib.urlopen(req, timeout=90)
         var res_body = response.read().decode("utf-8")
         response.close()
         var res_json = json.loads(res_body)
@@ -28,7 +28,7 @@ def call_openrouter_long(api_key: String, prompt: String, model: String = "googl
     var data = json.dumps(payload).encode("utf-8")
     var req = urllib.Request(url, data=data, headers={"Content-Type": "application/json", "Authorization": "Bearer " + api_key})
     try:
-        var response = urllib.urlopen(req, timeout=45)
+        var response = urllib.urlopen(req, timeout=90)
         var res_body = response.read().decode("utf-8")
         response.close()
         var res_json = json.loads(res_body)
@@ -59,7 +59,7 @@ struct ResearchPlanner:
             return call_gemini_long(self.active_key, prompt)
 
     def synthesize_report(self, topic: String, consolidated_context: String) raises -> String:
-        var prompt = "Generate a structured markdown Deep Research Report comparing Mojo and Rust memory management/ownership, focusing on value semantics, borrowing, explicit lifespans, and thread safety, based on this consolidated context:\n\n" + consolidated_context
+        var prompt = "Generate a comprehensive, highly structured markdown Deep Research Report on the main topic '" + topic + "' based on this consolidated research context:\n\n" + consolidated_context
         if self.is_openrouter:
             return call_openrouter_long(self.active_key, prompt, "google/gemini-3.5-flash")
         else:
