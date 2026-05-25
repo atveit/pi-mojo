@@ -24,6 +24,7 @@ Each scenario is a self-contained environment with its own code, walk-through do
 | **[Scenario 8: Migration Assistant](scenario_8_migration_assistant/)** | Compile Action | [Example 8](../examples/example_8_long_running_coder) | Parses local compiler diagnostics, auto-patching deprecated method signatures. |
 | **[Scenario 9: Cluster Recovery Monitor](scenario_9_db_recovery_monitor/)** | Latency Probe | [Example 9](../examples/example_9_local_heartbeat) | Probes local service ports and triggers simulated failover systems recovery playbooks. |
 | **[Scenario 10: CI Self-Healer Daemon](scenario_10_ci_self_healer/)** | Autonomous Loop | [Example 10](../examples/example_10_full_fledged_agent) | Runs a ticking daemon that auto-detects integration failures and corrects files. |
+| **[Scenario 11: Iterative Deep Research Agent](scenario_11_deep_researcher/)** | Multi-Turn Search | [Example 6](../examples/example_6_web_researcher) | Coordinates long-horizon, multi-turn information gathering using multiple search APIs (Tavily, Exa, Brave, Google, Bing). |
 
 ---
 
